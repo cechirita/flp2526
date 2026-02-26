@@ -373,7 +373,7 @@ data Expr
   | EminuU Expr
   deriving (Show)
 
---2. Modificati parser-ul astfel incat el sa returneze expresie de tipul de mai sus 'Expr' (tip de date abstract, inductiv, pentru expresii aritmetice)
+--2. Modificati parser-ul astfel incat sa returneze o expresie de tipul de mai sus 'Expr' (tip de date abstract, inductiv, pentru expresii aritmetice)
 
 {- | a parser for a number, but using the Constructor 'ENum' to create an 'Expr'
 Examples:
