@@ -5,7 +5,7 @@ import Control.Applicative (Alternative(empty, (<|>)), some, many)
 import Data.Functor (($>))
 import Data.IntMap (alter)
 
--- a parser is a wrapper for a function that takes a string, a list of all the possibilities (as the grammar may be ambiguous) of: (i) the interpretation of the parsed portion and (ii) the remainder of the string
+-- a parser is a wrapper for a function that takes a string, and returns a list of all the possibilities (as the grammar may be ambiguous) of: (i) the interpretation of the parsed portion and (ii) the remainder of the string
 newtype Parser a = Parser
   { parse :: String -> [(a, String)]
   }
@@ -285,7 +285,7 @@ Right 3.1415
 Right 31415.0
 -}
 number :: Parser Double
--- run both parsers: with or without a decimal point, and return the result
+-- run both prasers: with or without a decimal point, and return the result
 -- choice between 2 parsers, first with parser since it may have one, but if it doesn't check if it's an integer
 -- check the definition of fromIntegral on hoogle, it converts an integer to a more general number type (like Double)
 number =
@@ -373,7 +373,7 @@ data Expr
   | EminuU Expr
   deriving (Show)
 
---2. Modificati parser-ul astfel incat sa returneze o expresie de tipul de mai sus 'Expr' (tip de date abstract, inductiv, pentru expresii aritmetice)
+--2. Modificati parser-ul astfel incat el sa returneze expresie de tipul de mai sus 'Expr' (tip de date abstract, inductiv, pentru expresii aritmetice)
 
 {- | a parser for a number, but using the Constructor 'ENum' to create an 'Expr'
 Examples:
@@ -434,7 +434,7 @@ Right (EPlu (ENum 3.0) (EMul (ENum 2.0) (ENum 5.0)))
 Right (EMul (EPlu (ENum 3.0) (ENum 2.0)) (ENum 5.0))
 
 >>> parseFirst eexpr "1 + 2"
-Right (EPlu (ENum 1.0) (ENum 2.0),"")
+Right (EPlu (ENum 1.0) (ENum 2.0))
 
 >>> parseFirst eexpr "1 + (2 * 3)"
 Right (EPlu (ENum 1.0) (EMul (ENum 2.0) (ENum 3.0)))
@@ -453,7 +453,7 @@ Right (EPlu (EDiv (ENum 10.0) (ENum 2.0)) (EMul (ENum 3.0) (EPlu (ENum 5.0) (EMu
 
 -- failure of parsing
 >>> parseFirst eexpr "10 / 2 + 3*(5+(2*3))a"
-Right (EPlu (EDiv (ENum 10.0) (ENum 2.0)) (EMul (ENum 3.0) (EPlu (ENum 5.0) (EMul (ENum 2.0) (ENum 3.0)))),"a")
+Left "No parse consuming all input"
 -}
 eexpr :: Parser Expr
 eexpr = undefined
